@@ -1,0 +1,743 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Pizza Ria</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap">
+<style>
+/* =====================================================
+   Pizza Ria — стили
+   ===================================================== */
+
+/* ---------- Переменные: цвета и шрифты в одном месте ---------- */
+:root {
+  --red: #8B0000;        /* тёмно-красный, главный цвет */
+  --red-dark: #6B0000;   /* для наведения на кнопки */
+  --beige: #F5EFE6;      /* фон сайта */
+  --beige-dark: #EADFCF; /* фон под фото */
+  --gold: #D4AF37;       /* золотой акцент */
+  --black: #1E1A17;      /* текст */
+  --gray: #6E625A;       /* второстепенный текст */
+  --white: #FFFDF9;      /* фон карточек */
+
+  --font-title: "Playfair Display", Georgia, serif;
+  --font-text: "Inter", Arial, sans-serif;
+
+  --radius: 12px;
+  --shadow: 0 14px 34px rgba(80, 20, 10, 0.16);
+  color-scheme: light;
+}
+
+/* ---------- Сброс и база ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-text);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--black);
+  background: var(--beige);
+}
+
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
+
+/* Контейнер ограничивает ширину и даёт отступы по бокам */
+.container {
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* ---------- Кнопки ---------- */
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: center;
+  transition: background 0.25s, color 0.25s, transform 0.2s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:focus-visible, a:focus-visible, input:focus-visible, button:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.btn--red { background: var(--red); color: var(--white); }
+.btn--red:hover { background: var(--red-dark); }
+
+.btn--gold { background: var(--gold); color: var(--black); }
+.btn--gold:hover { background: #c29d2b; }
+
+.btn--outline { border-color: var(--red); color: var(--red); }
+.btn--outline:hover { background: var(--red); color: var(--white); }
+
+.btn--small { padding: 9px 18px; font-size: 14px; }
+.btn--full { width: 100%; }
+
+/* ---------- Шапка ---------- */
+.header {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 50;
+  background: rgba(245, 239, 230, 0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--beige-dark);
+}
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  height: 72px;
+}
+
+.logo {
+  font-family: var(--font-title);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--red);
+}
+.logo span { color: var(--gold); font-style: italic; }
+.logo--light { color: var(--white); }
+
+.nav { display: flex; gap: 32px; }
+.nav__link { font-weight: 500; position: relative; }
+/* Золотая линия под ссылкой при наведении */
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -4px;
+  width: 0; height: 2px;
+  background: var(--gold);
+  transition: width 0.25s;
+}
+.nav__link:hover::after { width: 100%; }
+
+.header__actions { display: flex; align-items: center; gap: 16px; }
+.cart { font-weight: 600; white-space: nowrap; }
+.cart b { color: var(--red); }
+
+/* Бургер скрыт на компьютере */
+.burger {
+  display: none;
+  width: 40px; height: 40px;
+  background: none; border: none;
+  flex-direction: column; justify-content: center; gap: 6px;
+}
+.burger span {
+  display: block; height: 2px; width: 26px; margin: 0 auto;
+  background: var(--black);
+  transition: transform 0.3s, opacity 0.3s;
+}
+/* Бургер превращается в крестик */
+.burger.is-open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.burger.is-open span:nth-child(2) { opacity: 0; }
+.burger.is-open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* ---------- Главный экран ---------- */
+.hero { padding: 64px 0 80px; }
+.hero__inner {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  gap: 48px;
+}
+.eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 16px;
+}
+.hero__title {
+  font-family: var(--font-title);
+  font-size: clamp(36px, 5vw, 60px);
+  line-height: 1.1;
+  margin-bottom: 20px;
+  text-wrap: balance;
+}
+.hero__title em { color: var(--red); font-style: italic; }
+.hero__subtitle {
+  font-size: 18px;
+  color: var(--gray);
+  max-width: 480px;
+  margin-bottom: 32px;
+}
+.hero__buttons { display: flex; flex-wrap: wrap; gap: 14px; }
+
+.hero__image { position: relative; }
+.hero__image .photo {
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 10px solid var(--white);
+  box-shadow: var(--shadow);
+}
+/* Золотой кружок "30 мин" */
+.hero__badge {
+  position: absolute;
+  left: -6px; bottom: 24px;
+  width: 104px; height: 104px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-family: var(--font-title);
+  font-size: 40px; font-weight: 700; line-height: 1;
+  box-shadow: var(--shadow);
+}
+.hero__badge small { font-family: var(--font-text); font-size: 14px; font-weight: 600; }
+
+/* Блок под фото: если картинка не загрузится, будет видна пицца-эмодзи */
+.photo {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle, #f3d9a4 0%, var(--beige-dark) 70%);
+}
+.photo::before {
+  content: "🍕";
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 72px;
+}
+.photo img {
+  position: relative;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- Общие стили секций ---------- */
+.section { padding: 88px 0; }
+.section__title {
+  font-family: var(--font-title);
+  font-size: clamp(30px, 4vw, 44px);
+  text-align: center;
+  margin-bottom: 12px;
+}
+.section__title--left { text-align: left; }
+.section__subtitle {
+  text-align: center;
+  color: var(--gray);
+  margin-bottom: 48px;
+}
+
+/* ---------- Меню: сетка карточек ---------- */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+/* Тень при наведении */
+.card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-6px);
+}
+.card__photo { aspect-ratio: 4 / 3; }
+.card__photo img { transition: transform 0.5s; }
+.card:hover .card__photo img { transform: scale(1.06); }
+
+.card__body {
+  display: flex; flex-direction: column; flex: 1;
+  padding: 22px;
+}
+.card__title { font-family: var(--font-title); font-size: 24px; margin-bottom: 8px; }
+.card__text { color: var(--gray); font-size: 15px; margin-bottom: 20px; flex: 1; }
+.card__bottom { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.card__price { font-size: 22px; font-weight: 600; color: var(--red); }
+
+/* ---------- Почему мы ---------- */
+.section--red { background: var(--red); color: var(--white); }
+.section--red .section__title { margin-bottom: 48px; }
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.feature {
+  text-align: center;
+  padding: 36px 26px;
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  border-radius: var(--radius);
+}
+.feature__icon {
+  width: 76px; height: 76px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px;
+}
+.feature__title { font-family: var(--font-title); font-size: 22px; margin-bottom: 10px; }
+.feature__text { opacity: 0.85; font-size: 15px; }
+
+/* ---------- Контакты ---------- */
+.contacts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+.contacts__list { list-style: none; display: grid; gap: 22px; margin-top: 28px; }
+.contacts__list li { display: flex; gap: 16px; align-items: center; font-size: 18px; }
+.contacts__list span {
+  flex-shrink: 0;
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+}
+.contacts__list small { display: block; font-size: 13px; color: var(--gray); }
+.contacts__list a { color: var(--red); font-weight: 600; }
+
+.form {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 36px;
+  box-shadow: var(--shadow);
+  border-top: 4px solid var(--gold);
+}
+.form__title { font-family: var(--font-title); font-size: 28px; }
+.form__text { color: var(--gray); margin-bottom: 24px; }
+.form__label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.form__input {
+  width: 100%;
+  padding: 13px 16px;
+  margin-bottom: 18px;
+  border: 1.5px solid var(--beige-dark);
+  border-radius: 10px;
+  background: var(--beige);
+  font: inherit;
+  color: var(--black);
+}
+.form__input:focus { border-color: var(--red); outline: none; }
+.form__input.is-error { border-color: #c0392b; }
+.form__message { min-height: 24px; margin-bottom: 10px; font-size: 14px; font-weight: 500; }
+.form__message.is-error { color: #c0392b; }
+.form__message.is-success { color: #2e7d32; }
+
+/* ---------- Подвал ---------- */
+.footer { background: var(--black); color: var(--beige); padding: 40px 0; }
+.footer__inner {
+  display: flex; flex-wrap: wrap;
+  align-items: center; justify-content: space-between;
+  gap: 20px;
+}
+.socials { display: flex; flex-wrap: wrap; gap: 12px; }
+.socials a {
+  padding: 8px 16px;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  border-radius: 999px;
+  font-size: 14px;
+  transition: background 0.25s, color 0.25s;
+}
+.socials a:hover { background: var(--gold); color: var(--black); }
+.footer__copy { font-size: 14px; opacity: 0.7; }
+
+/* ---------- Уведомление ---------- */
+.toast {
+  position: fixed;
+  left: 50%; bottom: 24px;
+  transform: translate(-50%, 120px);
+  background: var(--black); color: var(--white);
+  padding: 14px 24px;
+  border-radius: 999px;
+  border: 1px solid var(--gold);
+  font-weight: 500;
+  z-index: 100;
+  transition: transform 0.35s;
+  max-width: calc(100% - 32px);
+  text-align: center;
+}
+.toast.is-visible { transform: translate(-50%, 0); }
+
+/* ---------- Анимация появления при скролле ----------
+   Прячем элементы только когда JS работает (класс js-ready),
+   поэтому без JavaScript сайт всё равно виден целиком */
+.js-ready .reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.js-ready .reveal.is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; scroll-behavior: auto !important; }
+  .js-ready .reveal { opacity: 1; transform: none; }
+}
+
+/* =====================================================
+   АДАПТИВ
+   ===================================================== */
+
+/* Планшет: до 960px */
+@media (max-width: 960px) {
+  .menu-grid, .features { grid-template-columns: repeat(2, 1fr); }
+  .features .feature:last-child { grid-column: 1 / -1; }
+  .hero__inner { gap: 32px; }
+  .contacts { grid-template-columns: 1fr; }
+}
+
+/* Телефон: до 760px */
+@media (max-width: 760px) {
+  .burger { display: flex; }
+  .header__order { display: none; }
+
+  /* Меню выезжает сверху под шапкой */
+  .nav {
+    position: absolute;
+    top: 72px; left: 0; right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--beige);
+    border-bottom: 1px solid var(--beige-dark);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+  .nav.is-open { max-height: 320px; }
+  .nav__link { padding: 16px 20px; border-top: 1px solid var(--beige-dark); }
+  .nav__link::after { display: none; }
+
+  .hero { padding: 36px 0 56px; }
+  .hero__inner { grid-template-columns: 1fr; }
+  .hero__image { order: -1; max-width: 340px; margin: 0 auto; }
+  .hero__badge { width: 84px; height: 84px; font-size: 32px; }
+
+  .menu-grid, .features { grid-template-columns: 1fr; }
+  .section { padding: 64px 0; }
+  .form { padding: 26px; }
+  .footer__inner { flex-direction: column; text-align: center; }
+}
+</style>
+
+
+  <!-- ===== 1. ШАПКА ===== -->
+  <header class="header" id="top">
+    <div class="container header__inner">
+      <a href="#top" class="logo">Pizza <span>Ria</span></a>
+
+      <nav class="nav" id="nav">
+        <a href="#top" class="nav__link">Главная</a>
+        <a href="#menu" class="nav__link">Меню</a>
+        <a href="#about" class="nav__link">О нас</a>
+        <a href="#contacts" class="nav__link">Контакты</a>
+      </nav>
+
+      <div class="header__actions">
+        <span class="cart" title="Пицц в корзине">🛒 <b id="cart-count">0</b></span>
+        <a href="#menu" class="btn btn--gold header__order">Заказать</a>
+        <!-- Бургер-кнопка: видна только на телефоне -->
+        <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== 2. ГЛАВНЫЙ ЭКРАН ===== -->
+    <section class="hero">
+      <div class="container hero__inner">
+        <div class="hero__text">
+          <p class="eyebrow">Пермь · доставка с 10:00 до 23:00</p>
+          <h1 class="hero__title">Горячая пицца с доставкой <em>за 30 минут</em></h1>
+          <p class="hero__subtitle">Тесто замешиваем каждое утро, моцареллу и томаты привозят свежими. Печём при 400 °C и сразу везём к вам.</p>
+          <div class="hero__buttons">
+            <a href="#menu" class="btn btn--red">Выбрать пиццу</a>
+            <a href="tel:+73422000000" class="btn btn--outline">Позвонить</a>
+          </div>
+        </div>
+        <div class="hero__image">
+          <div class="photo">
+            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=900&q=80" alt="Пицца с моцареллой и базиликом">
+          </div>
+          <div class="hero__badge">30<small>мин</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 3. МЕНЮ ===== -->
+    <section class="section" id="menu">
+      <div class="container">
+        <h2 class="section__title reveal">Наше меню</h2>
+        <p class="section__subtitle reveal">Все пиццы — 30 см, на тонком тесте</p>
+
+        <div class="menu-grid">
+          <article class="card reveal">
+            <div class="photo card__photo"><img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&q=80" alt="Пицца Маргарита"></div>
+            <div class="card__body">
+              <h3 class="card__title">Маргарита</h3>
+              <p class="card__text">Томатный соус, моцарелла, свежий базилик, оливковое масло</p>
+              <div class="card__bottom">
+                <span class="card__price">490 ₽</span>
+                <button class="btn btn--red btn--small add-to-cart" data-name="Маргарита">В корзину</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <div class="photo card__photo"><img src="https://images.unsplash.com/photo-1628840042765-356cda07504e?w=600&q=80" alt="Пицца Пепперони"></div>
+            <div class="card__body">
+              <h3 class="card__title">Пепперони</h3>
+              <p class="card__text">Острая колбаса пепперони, моцарелла, томатный соус</p>
+              <div class="card__bottom">
+                <span class="card__price">590 ₽</span>
+                <button class="btn btn--red btn--small add-to-cart" data-name="Пепперони">В корзину</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <div class="photo card__photo"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&q=80" alt="Пицца Четыре сыра"></div>
+            <div class="card__body">
+              <h3 class="card__title">Четыре сыра</h3>
+              <p class="card__text">Моцарелла, пармезан, дорблю и чеддер на сливочном соусе</p>
+              <div class="card__bottom">
+                <span class="card__price">650 ₽</span>
+                <button class="btn btn--red btn--small add-to-cart" data-name="Четыре сыра">В корзину</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <div class="photo card__photo"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80" alt="Пицца Гавайская"></div>
+            <div class="card__body">
+              <h3 class="card__title">Гавайская</h3>
+              <p class="card__text">Курица, ананасы, моцарелла, сливочный соус</p>
+              <div class="card__bottom">
+                <span class="card__price">560 ₽</span>
+                <button class="btn btn--red btn--small add-to-cart" data-name="Гавайская">В корзину</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <div class="photo card__photo"><img src="https://images.unsplash.com/photo-1594007654729-407eedc4be65?w=600&q=80" alt="Пицца Мясная"></div>
+            <div class="card__body">
+              <h3 class="card__title">Мясная</h3>
+              <p class="card__text">Бекон, ветчина, говядина, пепперони, моцарелла, соус барбекю</p>
+              <div class="card__bottom">
+                <span class="card__price">690 ₽</span>
+                <button class="btn btn--red btn--small add-to-cart" data-name="Мясная">В корзину</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <div class="photo card__photo"><img src="https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=600&q=80" alt="Пицца Вегетарианская"></div>
+            <div class="card__body">
+              <h3 class="card__title">Вегетарианская</h3>
+              <p class="card__text">Перец, шампиньоны, томаты, маслины, красный лук, моцарелла</p>
+              <div class="card__bottom">
+                <span class="card__price">520 ₽</span>
+                <button class="btn btn--red btn--small add-to-cart" data-name="Вегетарианская">В корзину</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 4. ПОЧЕМУ МЫ ===== -->
+    <section class="section section--red" id="about">
+      <div class="container">
+        <h2 class="section__title reveal">Почему Pizza Ria</h2>
+        <div class="features">
+          <div class="feature reveal">
+            <div class="feature__icon">🛵</div>
+            <h3 class="feature__title">Быстрая доставка</h3>
+            <p class="feature__text">Привезём за 30 минут в любой район Перми. Опоздали — следующая пицца в подарок.</p>
+          </div>
+          <div class="feature reveal">
+            <div class="feature__icon">🍅</div>
+            <h3 class="feature__title">Свежие ингредиенты</h3>
+            <p class="feature__text">Овощи и сыры поступают каждое утро. Ничего не замораживаем.</p>
+          </div>
+          <div class="feature reveal">
+            <div class="feature__icon">🔥</div>
+            <h3 class="feature__title">Горячая прямо из печи</h3>
+            <p class="feature__text">Везём в термосумках, поэтому пицца приезжает такой же горячей, как в печи.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 5. КОНТАКТЫ ===== -->
+    <section class="section" id="contacts">
+      <div class="container contacts">
+        <div class="contacts__info reveal">
+          <h2 class="section__title section__title--left">Контакты</h2>
+          <ul class="contacts__list">
+            <li><span>📞</span><div><small>Телефон</small><a href="tel:+73422000000">+7 (342) 200-00-00</a></div></li>
+            <li><span>📍</span><div><small>Адрес</small>г. Пермь, ул. Ленина, 50</div></li>
+            <li><span>🕙</span><div><small>Время работы</small>Ежедневно с 10:00 до 23:00</div></li>
+          </ul>
+        </div>
+
+        <form class="form reveal" id="callback-form" novalidate>
+          <h3 class="form__title">Заказать звонок</h3>
+          <p class="form__text">Перезвоним в течение 5 минут и примем заказ</p>
+
+          <label class="form__label" for="name">Имя</label>
+          <input class="form__input" type="text" id="name" name="name" placeholder="Анна">
+
+          <label class="form__label" for="phone">Телефон</label>
+          <input class="form__input" type="tel" id="phone" name="phone" placeholder="+7 (900) 000-00-00">
+
+          <p class="form__message" id="form-message"></p>
+          <button type="submit" class="btn btn--red btn--full">Заказать звонок</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== 6. ПОДВАЛ ===== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <a href="#top" class="logo logo--light">Pizza <span>Ria</span></a>
+      <div class="socials">
+        <a href="https://vk.com" target="_blank" rel="noopener">ВКонтакте</a>
+        <a href="https://t.me" target="_blank" rel="noopener">Telegram</a>
+        <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+      </div>
+      <p class="footer__copy">© 2026 Pizza Ria. Учебный проект</p>
+    </div>
+  </footer>
+
+  <!-- Всплывающее уведомление "Добавлено в корзину" -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Наш скрипт подключаем в конце, чтобы HTML уже был загружен -->
+  <script>
+// =====================================================
+// Pizza Ria — скрипты
+// =====================================================
+
+// Сообщаем CSS, что JavaScript работает (для анимаций появления)
+document.documentElement.classList.add('js-ready');
+
+
+// ---------- 1. Бургер-меню на телефоне ----------
+const burger = document.getElementById('burger');
+const nav = document.getElementById('nav');
+
+burger.addEventListener('click', function () {
+  const isOpen = nav.classList.toggle('is-open');
+  burger.classList.toggle('is-open', isOpen);
+  burger.setAttribute('aria-expanded', isOpen);
+});
+
+// Закрываем меню, когда нажали на пункт
+nav.querySelectorAll('a').forEach(function (link) {
+  link.addEventListener('click', function () {
+    nav.classList.remove('is-open');
+    burger.classList.remove('is-open');
+    burger.setAttribute('aria-expanded', false);
+  });
+});
+
+
+// ---------- 2. Корзина: счётчик и уведомление ----------
+let cartCount = 0;
+const cartCountEl = document.getElementById('cart-count');
+const toast = document.getElementById('toast');
+let toastTimer;
+
+function showToast(text) {
+  toast.textContent = text;
+  toast.classList.add('is-visible');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function () {
+    toast.classList.remove('is-visible');
+  }, 2200);
+}
+
+document.querySelectorAll('.add-to-cart').forEach(function (button) {
+  button.addEventListener('click', function () {
+    cartCount = cartCount + 1;
+    cartCountEl.textContent = cartCount;
+    showToast('«' + button.dataset.name + '» добавлена в корзину');
+  });
+});
+
+
+// ---------- 3. Если фото не загрузилось — прячем его ----------
+// Тогда вместо сломанной картинки будет видна пицца-эмодзи
+document.querySelectorAll('.photo img').forEach(function (img) {
+  function hide() { img.style.visibility = 'hidden'; }
+  img.addEventListener('error', hide);
+  // если ошибка случилась ещё до запуска скрипта
+  if (img.complete && img.naturalWidth === 0) hide();
+});
+
+
+// ---------- 4. Форма "Заказать звонок" ----------
+const form = document.getElementById('callback-form');
+const nameInput = document.getElementById('name');
+const phoneInput = document.getElementById('phone');
+const message = document.getElementById('form-message');
+
+form.addEventListener('submit', function (event) {
+  event.preventDefault(); // не перезагружаем страницу
+
+  const name = nameInput.value.trim();
+  const digits = phoneInput.value.replace(/\D/g, ''); // оставляем только цифры
+
+  nameInput.classList.remove('is-error');
+  phoneInput.classList.remove('is-error');
+  message.className = 'form__message';
+
+  if (name.length < 2) {
+    nameInput.classList.add('is-error');
+    message.textContent = 'Введите имя — хотя бы 2 буквы.';
+    message.classList.add('is-error');
+    return;
+  }
+  if (digits.length < 10) {
+    phoneInput.classList.add('is-error');
+    message.textContent = 'Проверьте телефон: нужно минимум 10 цифр.';
+    message.classList.add('is-error');
+    return;
+  }
+
+  message.textContent = name + ', спасибо! Перезвоним в течение 5 минут.';
+  message.classList.add('is-success');
+  form.reset();
+});
+
+
+// ---------- 5. Плавное появление секций при скролле ----------
+const revealItems = document.querySelectorAll('.reveal');
+
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target); // анимация только один раз
+      }
+    });
+  }, { threshold: 0.15 });
+
+  revealItems.forEach(function (item) { observer.observe(item); });
+} else {
+  // Старый браузер — просто показываем всё
+  revealItems.forEach(function (item) { item.classList.add('is-visible'); });
+}
+
+</script>
+
+</body></html>
